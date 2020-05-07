@@ -51,7 +51,7 @@ class Ros2OpenCV_converter():
             	if (x > 1):
                 	# Escribimos en la imagen el instante en el que identificamos 
                 	# el objeto rojo
-                	cv2.putText(cv_image, 
+                	cv2.putText(img, 
                                 "Blob rojo localizado", 
                                 (int(cx),int(cy)), 
                                 cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255),2)     
