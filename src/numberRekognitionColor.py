@@ -45,18 +45,23 @@ class Ros2OpenCV_converter():
         _, contornos, __  = cv2.findContours(mask, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_TC89_L1)
     
         for contorno in contornos:
-		tam_contorno = cv2.contourArea(contorno)
-		tam_mascara = mask.size
-		x = (tam_contorno*100)/tam_mascara
-            	if (x > 1):
-                	# Escribimos en la imagen el instante en el que identificamos 
-                	# el objeto rojo
-                	cv2.putText(img, 
-                                "Blob rojo localizado", 
-                                (int(cx),int(cy)), 
-                                cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255),2)     
+            tam_contorno = cv2.contourArea(contorno)
+            tam_mascara = mask.size
+            x = (tam_contorno*100)/tam_mascara
+            x, y, w, h = cv2.boundingRect(contorno)
+            roi = img[y:y + h, x:x + w]
+            cv2.imwrite('prueba.png', roi)
+            if (x > 1):
+                # Escribimos en la imagen el instante en el que identificamos 
+                # el objeto rojo
+                cv2.putText(img, 
+                            "Blob rojo localizado", 
+                            (int(cx),int(cy)), 
+                            cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255),2)     
         
-        cv2.drawContours(img, contornos, -1, (255,255,255), 3) 
+        cv2.drawContours(img, contornos, -1, (255,255,255), 3)
+
+        print("GUARDO LA IMAGEN")
 
         # mostramos la imagen
         cv2.imshow("Imagen", img) 
