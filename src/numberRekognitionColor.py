@@ -24,52 +24,53 @@ class Ros2OpenCV_converter():
         current_directory = os.getcwd()
         path = current_directory + '/catkin_ws/src/cookobot-rekognition/images/'
 
-        # Convertimos la imagen recortada de BGR a HSV
+        # Converting image from BGR to HSV
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         
         # Definimos el rango que abarca el color rojo
         lower_color = np.array([100,150,0])
         upper_color = np.array([140,255,255]) 
 
-        # Creamos una mascara para filtrar solo los pixeles rojos
-        # que hay en la imagen capturada
+        # Creating mask
         mask = cv2.inRange(hsv, lower_color, upper_color)
                                 
         # Averiguamos el tamanyo de la imagen recuperada
         height, width, channels = img.shape
         
-        # Calculamos el centroide del blob de la imagen binaria utilizando
-        # los momentos de la imagen
+        # Calculating blob centroide
         M = cv2.moments(mask, False)
         try:
             cx, cy = M['m10']/M['m00'], M['m01']/M['m00']
         except ZeroDivisionError:
             cy, cx = height/2, width/2
         
-        # Buscamos los contornos de los objetos rojos de la imagen capturada
+        # Searching contours color objects
         _, contornos, __  = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_TC89_L1)
     
         for contorno in contornos:
             tam_contorno = cv2.contourArea(contorno)
             tam_mascara = mask.size
             x = (tam_contorno*100)/tam_mascara
+
+            #Crop table number object
             x, y, w, h = cv2.boundingRect(contorno)
             roi = img[y:y + h, x:x + w]
+
             # Make black and white
             h,s,v = cv2.split(roi)
+
             # Make binary
             blur = cv2.GaussianBlur(v,(5,5),0)
             ret3,blackAndWhiteImage = cv2.threshold(blur,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 
-
+            # Save image
             cv2.imwrite(os.path.join(path , 'table_number.jpg'), blackAndWhiteImage)   
         
         cv2.drawContours(img, contornos, -1, (255,255,255), 3)
 
-        # mostramos la imagen
+        # Showing live image
         cv2.imshow("Imagen", img) 
-
-                                          
+            
         cv2.waitKey(3)
         
         
