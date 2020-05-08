@@ -28,8 +28,8 @@ class Ros2OpenCV_converter():
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         
         # Definimos el rango que abarca el color rojo
-        lower_color = np.array([0,186,100])
-        upper_color = np.array([25,255,255]) 
+        lower_color = np.array([0,0,0])
+        upper_color = np.array([58,51,255]) 
 
         # Creating mask
         mask = cv2.inRange(hsv, lower_color, upper_color)
@@ -45,7 +45,7 @@ class Ros2OpenCV_converter():
             cy, cx = height/2, width/2
         
         # Searching contours color objects
-        _, contornos, __  = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_TC89_L1)
+        _, contornos, __  = cv2.findContours(mask, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_TC89_L1)
     
         for contorno in contornos:
             tam_contorno = cv2.contourArea(contorno)
