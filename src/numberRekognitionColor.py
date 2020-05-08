@@ -28,8 +28,8 @@ class Ros2OpenCV_converter():
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         
         # Definimos el rango que abarca el color rojo
-        lower_color = np.array([100,150,0])
-        upper_color = np.array([140,255,255]) 
+        lower_color = np.array([0,186,100])
+        upper_color = np.array([25,255,255]) 
 
         # Creating mask
         mask = cv2.inRange(hsv, lower_color, upper_color)
