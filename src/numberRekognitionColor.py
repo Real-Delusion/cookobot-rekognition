@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 from cv_bridge import CvBridge, CvBridgeError
 from sensor_msgs.msg import Image
+import os
 
 class Ros2OpenCV_converter():
     
@@ -19,6 +20,10 @@ class Ros2OpenCV_converter():
         except CvBridgeError as e:
             print(e)
         
+        # Getting path
+        current_directory = os.getcwd()
+        path = current_directory + '/catkin_ws/src/cookobot-rekognition/images/'
+
         # Convertimos la imagen recortada de BGR a HSV
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         
@@ -50,18 +55,16 @@ class Ros2OpenCV_converter():
             x = (tam_contorno*100)/tam_mascara
             x, y, w, h = cv2.boundingRect(contorno)
             roi = img[y:y + h, x:x + w]
-            cv2.imwrite('prueba.png', roi)
+            cv2.imwrite(os.path.join(path , 'table_number.jpg'), roi)
             if (x > 1):
                 # Escribimos en la imagen el instante en el que identificamos 
                 # el objeto rojo
                 cv2.putText(img, 
-                            "Blob rojo localizado", 
+                            "Blob localizado", 
                             (int(cx),int(cy)), 
                             cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255),2)     
         
         cv2.drawContours(img, contornos, -1, (255,255,255), 3)
-
-        print("GUARDO LA IMAGEN")
 
         # mostramos la imagen
         cv2.imshow("Imagen", img) 
