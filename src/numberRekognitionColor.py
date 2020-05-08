@@ -55,19 +55,15 @@ class Ros2OpenCV_converter():
             x = (tam_contorno*100)/tam_mascara
             x, y, w, h = cv2.boundingRect(contorno)
             roi = img[y:y + h, x:x + w]
-            cv2.imwrite(os.path.join(path , 'table_number.jpg'), roi)
-            if (x > 1):
-                # Escribimos en la imagen el instante en el que identificamos 
-                # el objeto rojo
-                cv2.putText(img, 
-                            "Blob localizado", 
-                            (int(cx),int(cy)), 
-                            cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255),2)     
+            h,s,v = cv2.split(roi)
+            # Make black and white
+            cv2.imwrite(os.path.join(path , 'table_number.jpg'), v)   
         
         cv2.drawContours(img, contornos, -1, (255,255,255), 3)
 
         # mostramos la imagen
         cv2.imshow("Imagen", img) 
+
                                           
         cv2.waitKey(3)
         
