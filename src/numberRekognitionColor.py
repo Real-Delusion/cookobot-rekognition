@@ -47,7 +47,7 @@ class Ros2OpenCV_converter():
             cy, cx = height/2, width/2
         
         # Buscamos los contornos de los objetos rojos de la imagen capturada
-        _, contornos, __  = cv2.findContours(mask, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_TC89_L1)
+        _, contornos, __  = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_TC89_L1)
     
         for contorno in contornos:
             tam_contorno = cv2.contourArea(contorno)
@@ -57,9 +57,11 @@ class Ros2OpenCV_converter():
             roi = img[y:y + h, x:x + w]
             # Make black and white
             h,s,v = cv2.split(roi)
-            #blackAndWhiteImage = cv2.adaptiveThreshold(v,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY_INV,11,2)
+            # Make binary
             blur = cv2.GaussianBlur(v,(5,5),0)
             ret3,blackAndWhiteImage = cv2.threshold(blur,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+
+
             cv2.imwrite(os.path.join(path , 'table_number.jpg'), blackAndWhiteImage)   
         
         cv2.drawContours(img, contornos, -1, (255,255,255), 3)
