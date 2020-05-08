@@ -52,7 +52,7 @@ class Ros2OpenCV_converter():
             tam_mascara = mask.size
             x = (tam_contorno*100)/tam_mascara
 
-            #Crop table number object
+            #Cropping table number
             x, y, w, h = cv2.boundingRect(contorno)
             roi = img[y:y + h, x:x + w]
 
