@@ -1,0 +1,8 @@
+<launch>
+    <node
+        pkg = "rekognition_action"
+        type = "action_server.py"
+        name = "rekognition_action_server"
+        output = "screen">
+    </node>
+</launch>

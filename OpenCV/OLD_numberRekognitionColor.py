@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import rospy
 import cv2
 import numpy as np
@@ -72,6 +72,9 @@ class Ros2OpenCV_converter():
         cv2.imshow("Imagen", img) 
             
         cv2.waitKey(3)
+        
+        rospy.loginfo("foto guardada")
+        rospy.loginfo(path)
         
         
 def main():

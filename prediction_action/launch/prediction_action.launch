@@ -1,0 +1,8 @@
+<launch>
+    <node
+        pkg = "prediction_action"
+        type = "prediction_server.py"
+        name = "prediction_action_server"
+        output = "screen">
+    </node>
+</launch>

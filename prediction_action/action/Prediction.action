@@ -1,0 +1,7 @@
+#Definición de los mensajes de la acción
+#Goal: el numero que buscamos
+---
+#Result: el numero leido
+uint32 table_number
+---
+#Feedback

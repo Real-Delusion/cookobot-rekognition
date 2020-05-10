@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # number_prediction.py
 # Emilia Rosa van der Heide
@@ -8,7 +10,7 @@
 import numpy as np
 from tensorflow.keras.models import load_model
 import cv2
-
+import os
 
 class number_prediction:
 
@@ -26,9 +28,12 @@ class number_prediction:
     # constructor
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     def __init__(self):
+        
+        current_directory = os.getcwd()
+        path = current_directory + '/catkin_ws/src/cookobot-rekognition/TensorFlow/train/number_prediction_model'
 
         # We load the model
-        self.model = load_model('../train/number_prediction_model')
+        self.model = load_model(path)
         
         # The shape sizes the model needs
         self.height = self.model.layers[0].input_shape[1]

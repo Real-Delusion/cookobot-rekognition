@@ -6,8 +6,17 @@ import time
 import actionlib
 from rekognition_action.msg import RekognitionAction, RekognitionGoal, RekognitionResult, RekognitionFeedback
 
+import numberRekognitionColor
+import cv2
+from cv2 import *
+
 def rekognize_number(goal): #funcion a ejecutar al recibir el goal
     rospy.loginfo("action called")
+    
+    # Start finding number block
+    ic_obj = numberRekognitionColor.Ros2OpenCV_converter()
+    ic_obj.start()
+
     result = RekognitionResult() #se construye el mensaje de respuesta
     result.table_number = 5
     server.set_succeeded(result) #se ha enviado el goal OK
