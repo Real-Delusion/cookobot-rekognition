@@ -42,20 +42,24 @@ class number_prediction:
     # prepare_data(image)
     # this method readies the image for the prediction
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    def prepare_data(self, image):
+    def prepare_data(self, image):        
+        
         # Make black and white
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
+        
         # Resize image to fit the model's needs
-        image = cv2.resize(image, (self.height, self.width))
-
+        image = cv2.resize(image, (self.height, self.width), interpolation = cv2.INTER_NEAREST)
+        '''
+        cv2.imshow("bw", image)
+        cv2.waitKey(0)
+        '''
         # Change image compression to fit model's needs
         image = image.astype(self.dtype)
         image /= 255.
         
         # Add one dimension to the image
         data = np.expand_dims(image, 0)
-        
+
         return data
     
     
@@ -76,7 +80,7 @@ class number_prediction:
 
 
 # Load the image
-image_file = 'number.jpg'
+image_file = '../../images/table_number.jpg'
 image = cv2.imread(image_file)
 
 number_predictor = number_prediction()
