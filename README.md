@@ -1,1 +1,0 @@
-# cookobot-rekognition
