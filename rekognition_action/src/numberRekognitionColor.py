@@ -15,14 +15,6 @@ class Ros2OpenCV_converter():
         self.bridge = CvBridge()
         self.image_sub = rospy.Subscriber(
             "/turtlebot3/camera/image_raw", Image, self.callback)
-                
-    def start(self):
-        #rospy.init_node("Ros2OpenCV_converter", anonymous=True)
-        try:
-            rospy.spin()
-        except KeyboardInterrupt:
-            print("Finalizar captura y conversion de imagen")
-        cv2.destroyAllWindows()
 
     def callback(self, data):
         try:

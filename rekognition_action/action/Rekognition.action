@@ -2,6 +2,6 @@
 #Goal: el numero que buscamos
 ---
 #Result: el numero leido
-uint32 table_number
+bool photo
 ---
 #Feedback

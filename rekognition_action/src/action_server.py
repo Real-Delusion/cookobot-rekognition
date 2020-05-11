@@ -15,11 +15,12 @@ def rekognize_number(goal): #funcion a ejecutar al recibir el goal
     
     # Start finding number block
     ic_obj = numberRekognitionColor.Ros2OpenCV_converter()
-    ic_obj.start()
+  #  ic_obj.start()
 
-    result = RekognitionResult() #se construye el mensaje de respuesta
-    result.table_number = 5
-    server.set_succeeded(result) #se ha enviado el goal OK
+    result = RekognitionResult() # se construye el mensaje de respuesta
+    result.photo = True
+    rospy.loginfo(result)
+    server.set_succeeded(result) 
     
 rospy.init_node('rekognition_action_server')
 server = actionlib.SimpleActionServer('rekognition', RekognitionAction, rekognize_number, False) # creamos el servidor de la accion
