@@ -7,12 +7,10 @@
 # This file contains a class that given an image predicts the
 # number in that image using a trained TensorFlow model
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-import os
-os.environ["CUDA_VISIBLE_DEVICES"] ='-1'
 import numpy as np
 from tensorflow.keras.models import load_model
 import cv2
-
+import os
 
 class number_prediction:
 

@@ -24,9 +24,6 @@ def predict_number(goal): #funcion a ejecutar al recibir el goal
     number_predictor = number_prediction.number_prediction()
 
     prediction = number_predictor.predict(image)
-
-    rospy.loginfo("prediction: ")
-    rospy.loginfo(prediction)
     
     result = PredictionResult() #se construye el mensaje de respuesta
     result.table_number = prediction
