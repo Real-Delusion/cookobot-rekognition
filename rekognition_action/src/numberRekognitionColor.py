@@ -6,15 +6,16 @@ import numpy as np
 from cv_bridge import CvBridge, CvBridgeError
 from sensor_msgs.msg import Image
 import os
+import time
 
 class Ros2OpenCV_converter():
 
     def __init__(self):
-        #self.image_pub = rospy.Publisher("image_topic_2",Image)
-
         self.bridge = CvBridge()
         self.image_sub = rospy.Subscriber(
             "/turtlebot3/camera/image_raw", Image, self.callback)
+        time.sleep(1)
+
 
     def callback(self, data):
         try:
@@ -29,14 +30,14 @@ class Ros2OpenCV_converter():
         # Converting image from BGR to HSV
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
-        # Definimos el rango que abarca el color rojo
+        # Defining the range of the color of the table number
         lower_color = np.array([0, 0, 0])
         upper_color = np.array([58, 51, 255])
 
         # Creating mask
         mask = cv2.inRange(hsv, lower_color, upper_color)
 
-        # Averiguamos el tamanyo de la imagen recuperada
+        # Size of the image
         height, width, channels = img.shape
 
         # Calculating blob centroide
@@ -69,25 +70,11 @@ class Ros2OpenCV_converter():
 
             # Save image
             cv2.imwrite(os.path.join(path, 'table_number.jpg'),
-                        blackAndWhiteImage)
+                    blackAndWhiteImage)
             
         rospy.loginfo("foto guardada")
         rospy.loginfo(path)
 
         cv2.drawContours(img, contornos, -1, (255, 255, 255), 3)
 
-
-'''
-def main():
-    ic_obj = Ros2OpenCV_converter()
-    rospy.init_node("Ros2OpenCV_converter", anonymous=True)
-    try:
         rospy.spin()
-    except KeyboardInterrupt:
-        print("Finalizar captura y conversion de imagen")
-    cv2.destroyAllWindows()
-
-
-if __name__ == '__main__':
-    main()
-'''
