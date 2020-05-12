@@ -10,12 +10,12 @@ import time
 
 class Ros2OpenCV_converter():
 
-    def __init__(self):
+    def rekogniceNumber(self):
         self.bridge = CvBridge()
         self.image_sub = rospy.Subscriber(
             "/turtlebot3/camera/image_raw", Image, self.callback)
-        time.sleep(1)
-
+        time.sleep(3) # Wait 3 seconds then close the subscriber
+        self.close(self.image_sub) # Close the subscriber
 
     def callback(self, data):
         try:
@@ -37,7 +37,7 @@ class Ros2OpenCV_converter():
         # Creating mask
         mask = cv2.inRange(hsv, lower_color, upper_color)
 
-        # Size of the image
+        # Gettin the size of the image
         height, width, channels = img.shape
 
         # Calculating blob centroide
@@ -78,3 +78,9 @@ class Ros2OpenCV_converter():
         cv2.drawContours(img, contornos, -1, (255, 255, 255), 3)
 
         rospy.spin()
+
+    def close(self,image_sub):
+        self.image_sub.unregister()
+
+
+
