@@ -70,11 +70,11 @@ class Ros2OpenCV_converter():
 
             # Save image
             cv2.imwrite(os.path.join(path, 'table_number.jpg'),
-                    blackAndWhiteImage)
+                        blackAndWhiteImage)
             
         rospy.loginfo("foto guardada")
         rospy.loginfo(path)
-
+        '''
         cv2.drawContours(img, contornos, -1, (255, 255, 255), 3)
 
         rospy.spin()
