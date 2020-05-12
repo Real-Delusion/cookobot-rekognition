@@ -9,14 +9,13 @@ from rekognition_action.msg import RekognitionAction, RekognitionGoal, Rekogniti
 import numberRekognitionColor
 import cv2
 from cv2 import *
-import threading
 
 
 def rekognize_number(goal): #funcion a ejecutar al recibir el goal
     rospy.loginfo("action called")
     
     # Start finding number block
-    ic_obj = numberRekognitionColor.Ros2OpenCV_converter()
+    obj = numberRekognitionColor.Ros2OpenCV_converter().rekogniceNumber()
 
     rospy.loginfo("Photo taken and saved")
 
