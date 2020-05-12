@@ -13,13 +13,16 @@ import number_prediction
 
 def predict_number(goal): #funcion a ejecutar al recibir el goal
     rospy.loginfo("action called")
-    
     path = os.getcwd() + '/catkin_ws/src/cookobot-rekognition/images'
+    print(path)
     
     image_file = os.path.join(path, 'table_number.jpg')
     
     # Read image
     image = cv2.imread(image_file)
+    cv2.imshow("b", image)
+    cv2.waitKey(5000)
+    cv2.destroyAllWindows()
     
     number_predictor = number_prediction.number_prediction()
 

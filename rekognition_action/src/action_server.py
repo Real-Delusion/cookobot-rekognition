@@ -9,13 +9,14 @@ from rekognition_action.msg import RekognitionAction, RekognitionGoal, Rekogniti
 import numberRekognitionColor
 import cv2
 from cv2 import *
+import os
 
 
 def rekognize_number(goal): #funcion a ejecutar al recibir el goal
     rospy.loginfo("action called")
     
     # Start finding number block
-    obj = numberRekognitionColor.Ros2OpenCV_converter().rekogniceNumber()
+    obj = numberRekognitionColor.Ros2OpenCV_converter().initRekognizeNumber()
 
     rospy.loginfo("Photo taken and saved")
 
@@ -23,7 +24,9 @@ def rekognize_number(goal): #funcion a ejecutar al recibir el goal
     result.photo = True
     rospy.loginfo(result)
     server.set_succeeded(result) 
-    
+
+# changing path
+os.chdir("..")    
 rospy.init_node('rekognition_action_server')
 server = actionlib.SimpleActionServer('rekognition', RekognitionAction, rekognize_number, False) # creamos el servidor de la accion
 # los parametros son: nombre del servidor, tipo de accion, funcion a ejecutar  variable que posibilita el

@@ -10,12 +10,13 @@ import time
 
 class Ros2OpenCV_converter():
 
-    def rekogniceNumber(self):
+    def initRekognizeNumber(self):
         self.bridge = CvBridge()
         self.image_sub = rospy.Subscriber(
             "/turtlebot3/camera/image_raw", Image, self.callback)
-        time.sleep(3) # Wait 3 seconds then close the subscriber
+        time.sleep(10) # Wait 3 seconds then close the subscriber
         self.close(self.image_sub) # Close the subscriber
+
 
     def callback(self, data):
         try:
@@ -23,8 +24,7 @@ class Ros2OpenCV_converter():
         except CvBridgeError as e:
             rospy.loginfo(e)
 
-        # Getting path
-        os.chdir("..")
+        # getting path
         path = os.getcwd() + '/catkin_ws/src/cookobot-rekognition/images'
 
         # Converting image from BGR to HSV
@@ -71,6 +71,7 @@ class Ros2OpenCV_converter():
             # Save image
             cv2.imwrite(os.path.join(path, 'table_number.jpg'),
                     blackAndWhiteImage)
+            rospy.loginfo("imwrite")
             
         rospy.loginfo("foto guardada")
         rospy.loginfo(path)

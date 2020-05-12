@@ -50,6 +50,9 @@ class number_prediction:
         
         # Make black and white
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        cv2.imshow("a", image)
+        cv2.waitKey(2000)
+        cv2.destroyAllWindows()
         
         # Resize image to fit the model's needs
         image = cv2.resize(image, (self.height, self.width), interpolation = cv2.INTER_NEAREST)
@@ -57,6 +60,11 @@ class number_prediction:
         cv2.imshow("bw", image)
         cv2.waitKey(0)
         '''
+
+        cv2.imshow("aeditada", image)
+        cv2.waitKey(2000)
+        cv2.destroyAllWindows()
+
         # Change image compression to fit model's needs
         image = image.astype(self.dtype)
         image /= 255.
@@ -72,6 +80,10 @@ class number_prediction:
     # this method predicts the number in an image
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     def predict(self, image):
+
+        cv2.imshow("a1", image)
+        cv2.waitKey(5000)
+        cv2.destroyAllWindows()
         
         # First we need to prepare the image for the model
         data = self.prepare_data(image)
