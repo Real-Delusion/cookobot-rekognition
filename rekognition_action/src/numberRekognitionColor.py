@@ -10,21 +10,22 @@ import time
 
 class Ros2OpenCV_converter():
 
-    def initRekognizeNumber(self):
+    def __init__(self):
         self.bridge = CvBridge()
-        self.image_sub = rospy.Subscriber(
-            "/turtlebot3/camera/image_raw", Image, self.callback)
-        time.sleep(10) # Wait 3 seconds then close the subscriber
-        self.close(self.image_sub) # Close the subscriber
+        self.image_sub = rospy.Subscriber("/turtlebot3/camera/image_raw", Image)
+        #time.sleep(1)
 
 
-    def callback(self, data):
+    def process_image(self, data):
         try:
             img = self.bridge.imgmsg_to_cv2(data, "bgr8")
         except CvBridgeError as e:
             rospy.loginfo(e)
+            
+        cv2.imshow("bw", img)
+        cv2.waitKey(0)
 
-        # getting path
+        # Getting path
         path = os.getcwd() + '/catkin_ws/src/cookobot-rekognition/images'
 
         # Converting image from BGR to HSV
@@ -37,7 +38,7 @@ class Ros2OpenCV_converter():
         # Creating mask
         mask = cv2.inRange(hsv, lower_color, upper_color)
 
-        # Gettin the size of the image
+        # Size of the image
         height, width, channels = img.shape
 
         # Calculating blob centroide
@@ -69,19 +70,11 @@ class Ros2OpenCV_converter():
                 blur, 0, 255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 
             # Save image
-            cv2.imwrite(os.path.join(path, 'table_number.jpg'),
-                    blackAndWhiteImage)
-            rospy.loginfo("imwrite")
+            cv2.imwrite(os.path.join(path, 'table_number.jpg'), blackAndWhiteImage)
             
         rospy.loginfo("foto guardada")
         rospy.loginfo(path)
 
         cv2.drawContours(img, contornos, -1, (255, 255, 255), 3)
-
-        rospy.spin()
-
-    def close(self,image_sub):
-        self.image_sub.unregister()
-
-
-
+        
+        return True
