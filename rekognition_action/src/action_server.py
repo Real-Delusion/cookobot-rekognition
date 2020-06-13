@@ -35,7 +35,7 @@ server = actionlib.SimpleActionServer('rekognition', RekognitionAction, rekogniz
 # los parametros son: nombre del servidor, tipo de accion, funcion a ejecutar  variable que posibilita el
 # inicio automatico del servidor
 
-obj = numberRekognitionColor.Ros2OpenCV_converter()
+obj = numberRekognitionColor.numberRekognition()
 rospy.loginfo("Lanzamos el servidor rekognition_action_server")
 server.start() # iniciamos el servidor
 rospy.spin() # el servidor queda a la espera de recibir goal

@@ -8,7 +8,7 @@ from sensor_msgs.msg import Image
 import os
 import time
 
-class Ros2OpenCV_converter():
+class numberRekognition():
 
     def __init__(self):
         self.bridge = CvBridge()
