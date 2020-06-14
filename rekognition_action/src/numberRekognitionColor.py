@@ -4,7 +4,7 @@
 # numberRekognitionColor.py
 # Santiago Perez Torres
 # 01/05/20
-# This file contains a class that edits an image and cut the backgroud of
+# This file contains a class that edits an image and cut the background of
 # the number (the element that we are interested)
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -79,6 +79,7 @@ class numberRekognition():
 
         # Calculating blob centroide
         M = cv2.moments(mask, False)
+        
         try:
             cx, cy = M['m10']/M['m00'], M['m01']/M['m00']
         except ZeroDivisionError:
