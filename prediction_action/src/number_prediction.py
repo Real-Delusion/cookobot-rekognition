@@ -28,6 +28,11 @@ class number_prediction:
     # constructor
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     def __init__(self):
+        """
+        This method loads the model and modifies the shape sizes of the model
+
+        """
+        
         
         path = os.getcwd() + '/catkin_ws/src/cookobot-rekognition/TensorFlow/train/number_prediction_model'
 
@@ -46,7 +51,15 @@ class number_prediction:
     # prepare_data(image)
     # this method readies the image for the prediction
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    def prepare_data(self, image):        
+    def prepare_data(self, image):
+        """
+        This method prepares the image making it black and white, resizing it and 
+        changing the image compression to fit model's needs.
+
+        Args:
+            image (image):
+
+        """
         
         # Make black and white
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -80,7 +93,15 @@ class number_prediction:
     # this method predicts the number in an image
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     def predict(self, image):
+        """
+        This method prepares the image for the model and then it predicts which number is.
+        We it is finished it returns de prediciton with the max confidence.
 
+        Args:
+            image (image):
+
+        """
+    
         cv2.imshow("a1", image)
         cv2.waitKey(5000)
         cv2.destroyAllWindows()
