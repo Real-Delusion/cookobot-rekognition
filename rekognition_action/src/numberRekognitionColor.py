@@ -1,27 +1,63 @@
 #!/usr/bin/env python
-import rospy
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# numberRekognitionColor.py
+# Santiago Perez Torres
+# 01/05/20
+# This file contains a class that edits an image and cut the backgroud of
+# the number (the element that we are interested)
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+#import rospy
 import cv2
-from cv2 import *
 import numpy as np
 from cv_bridge import CvBridge, CvBridgeError
 from sensor_msgs.msg import Image
 import os
 import time
 
-class numberRekognition():
+class numberRekognition():  
 
     def __init__(self):
+        """
+        This method starts the connection with the robot camera to get the image from it.
+        """
+        
         self.bridge = CvBridge()
         self.image_sub = rospy.Subscriber("/turtlebot3/camera/image_raw", Image)
         #time.sleep(1)
 
 
     def process_image(self, data):
+        """
+        This method gets the information taken from the robot camera.
+
+        Args:
+            data (image):
+
+        """
+
         try:
             img = self.bridge.imgmsg_to_cv2(data, "bgr8")
         except CvBridgeError as e:
             rospy.loginfo(e)
-            
+        
+        #Extract number from the image
+        extract_number(img)
+    
+        return True
+
+        
+    def extract_number(self, img):
+        """
+        This method extracts the number from the robot camera and saves it in a folder.
+
+        Args:
+            img (image):
+
+        """
+
+        
         cv2.imshow("bw", img)
         cv2.waitKey(0)
 
@@ -77,4 +113,3 @@ class numberRekognition():
 
         cv2.drawContours(img, contornos, -1, (255, 255, 255), 3)
         
-        return True
