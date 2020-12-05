@@ -1,30 +1,67 @@
 #!/usr/bin/env python
-import rospy
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# numberRekognitionColor.py
+# Santiago Perez Torres
+# 01/05/20
+# This file contains a class that edits an image and cut the background of
+# the number (the element that we are interested)
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+#import rospy
 import cv2
-from cv2 import *
 import numpy as np
 from cv_bridge import CvBridge, CvBridgeError
 from sensor_msgs.msg import Image
 import os
 import time
 
-class Ros2OpenCV_converter():
+class numberRekognition():  
 
-    def initRekognizeNumber(self):
+    def __init__(self):
+        """
+        This method starts the connection with the robot camera to get the image from it.
+        """
+        
         self.bridge = CvBridge()
-        self.image_sub = rospy.Subscriber(
-            "/turtlebot3/camera/image_raw", Image, self.callback)
-        time.sleep(10) # Wait 3 seconds then close the subscriber
-        self.close(self.image_sub) # Close the subscriber
+        self.image_sub = rospy.Subscriber("/turtlebot3/camera/image_raw", Image)
+        #time.sleep(1)
 
 
-    def callback(self, data):
+    def process_image(self, data):
+        """
+        This method gets the information taken from the robot camera.
+
+        Args:
+            data (image):
+
+        """
+
         try:
             img = self.bridge.imgmsg_to_cv2(data, "bgr8")
         except CvBridgeError as e:
             rospy.loginfo(e)
+        
+        #Extract number from the image
+        extract_number(img)
+    
+        return True
 
-        # getting path
+        
+    def extract_number(self, img):
+        """
+        This method extracts the number from the robot camera and saves it in a folder.
+
+        Args:
+            img (image):
+
+        """
+
+        
+        cv2.imshow("bw", img)
+        cv2.waitKey(0)
+
+        # Getting path
         path = os.getcwd() + '/catkin_ws/src/cookobot-rekognition/images'
 
         # Converting image from BGR to HSV
@@ -37,11 +74,12 @@ class Ros2OpenCV_converter():
         # Creating mask
         mask = cv2.inRange(hsv, lower_color, upper_color)
 
-        # Gettin the size of the image
+        # Size of the image
         height, width, channels = img.shape
 
         # Calculating blob centroide
         M = cv2.moments(mask, False)
+        
         try:
             cx, cy = M['m10']/M['m00'], M['m01']/M['m00']
         except ZeroDivisionError:
@@ -69,19 +107,10 @@ class Ros2OpenCV_converter():
                 blur, 0, 255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 
             # Save image
-            cv2.imwrite(os.path.join(path, 'table_number.jpg'),
-                    blackAndWhiteImage)
-            rospy.loginfo("imwrite")
+            cv2.imwrite(os.path.join(path, 'table_number.jpg'), blackAndWhiteImage)
             
         rospy.loginfo("foto guardada")
         rospy.loginfo(path)
 
         cv2.drawContours(img, contornos, -1, (255, 255, 255), 3)
-
-        rospy.spin()
-
-    def close(self,image_sub):
-        self.image_sub.unregister()
-
-
-
+        
