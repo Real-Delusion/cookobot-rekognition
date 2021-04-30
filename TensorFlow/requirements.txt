@@ -130,7 +130,7 @@ rqt-tf-tree==0.6.0
 rqt-top==0.4.8
 rqt-topic==0.4.11
 rqt-web==0.4.8
-rsa==4.0
+rsa==4.7
 rviz==1.13.9
 sensor-msgs==1.12.7
 six==1.14.0
@@ -295,7 +295,7 @@ rqt-tf-tree==0.6.0
 rqt-top==0.4.8
 rqt-topic==0.4.11
 rqt-web==0.4.8
-rsa==4.0
+rsa==4.7
 rviz==1.13.9
 scikit-image==0.16.2
 scipy==1.4.1
