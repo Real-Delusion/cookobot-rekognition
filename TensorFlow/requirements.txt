@@ -150,7 +150,7 @@ tf2-ros==0.6.5
 topic-tools==1.14.5
 unique-id==1.0.6
 urdfdom-py==0.4.3
-urllib3==1.25.9
+urllib3==1.26.5
 Werkzeug==1.0.1
 wrapt==1.12.1
 xacro==1.13.5
@@ -317,7 +317,7 @@ tf2-ros==0.6.5
 topic-tools==1.14.5
 unique-id==1.0.6
 urdfdom-py==0.4.3
-urllib3==1.25.9
+urllib3==1.26.5
 Werkzeug==1.0.1
 wrapt==1.12.1
 xacro==1.13.5
